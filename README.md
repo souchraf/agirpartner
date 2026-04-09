@@ -1,11 +1,34 @@
 # Agir Partner
 
-Homepage React + Tailwind pour une ESN SIRH.
+Site premium pour une ESN de conseil SIRH et IT consulting.
 
-## Contenu
+## Stack
 
-- `index.html` : page d'accueil avec React 18, Babel et Tailwind via CDN
+- React
+- TypeScript
+- Tailwind CSS
+- structure compatible shadcn/ui
+- Framer Motion
+- Lucide React
 
-## Utilisation
+## Structure utile
 
-Ouvrir `index.html` dans un navigateur pour voir la page localement ou publier le dossier via GitHub Pages.
+- `src/components/ui/aurora-background.tsx` : composant de fond aurora
+- `src/components/ui/demo.tsx` : composant de demonstration fourni
+- `src/lib/utils.ts` : helper `cn`
+- `src/App.tsx` : homepage
+
+## Lancer le projet
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+Le projet est configure pour GitHub Pages avec la base `/agirpartner/`.
