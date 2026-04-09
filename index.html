@@ -3,193 +3,239 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agir Partner | Conseil, transformation et accompagnement</title>
+    <title>Agir Partner | ESN SIRH</title>
     <meta
       name="description"
-      content="Agir Partner accompagne les organisations dans leurs projets de transformation, de structuration et de pilotage avec une approche humaine et orientee impact."
+      content="Agir Partner est une ESN SIRH qui accompagne les entreprises dans le cadrage, l'integration et l'optimisation de leurs solutions RH."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Manrope", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+            },
+            colors: {
+              sand: "#f4ede4",
+              ember: "#dc6c3f",
+              pine: "#16342f",
+              mist: "#6c746f",
+              ink: "#13211d",
+            },
+            boxShadow: {
+              soft: "0 24px 60px rgba(19, 33, 29, 0.12)",
+            },
+          },
+        },
+      };
+    </script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
-  <body>
-    <div class="page-glow page-glow-left" aria-hidden="true"></div>
-    <div class="page-glow page-glow-right" aria-hidden="true"></div>
+  <body class="bg-sand font-sans text-ink antialiased">
+    <div id="root"></div>
 
-    <header class="hero" id="accueil">
-      <div class="container">
-        <nav class="nav">
-          <a class="brand" href="#accueil">Agir Partner</a>
-          <div class="nav-links">
-            <a href="#expertises">Expertises</a>
-            <a href="#methode">Methode</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <a class="btn btn-small" href="#contact">Parler de votre projet</a>
-        </nav>
+    <script type="text/babel">
+      const services = [
+        {
+          title: "Conseil SIRH et cadrage",
+          description:
+            "Audit de l'existant, priorisation des besoins RH et construction d'une roadmap realiste pour la transformation.",
+        },
+        {
+          title: "Integration et deploiement",
+          description:
+            "Pilotage des projets, coordination des parties prenantes et mise en oeuvre des solutions Core HR, paie et talents.",
+        },
+        {
+          title: "Support et optimisation",
+          description:
+            "Amelioration continue, securisation du run et accompagnement des equipes pour faire vivre le SIRH dans la duree.",
+        },
+      ];
 
-        <div class="hero-grid">
-          <div class="hero-copy reveal">
-            <p class="eyebrow">Conseil de transformation</p>
-            <h1>Faire avancer les projets qui comptent, avec clarte et impact.</h1>
-            <p class="lead">
-              Agir Partner aide les dirigeants, equipes projet et structures en croissance a
-              cadrer leurs priorites, fluidifier l'execution et transformer les intentions en
-              resultats concrets.
-            </p>
-            <div class="hero-actions">
-              <a class="btn" href="#contact">Demander un echange</a>
-              <a class="link-arrow" href="#expertises">Decouvrir l'approche</a>
-            </div>
+      const App = () => (
+        <div className="relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(220,108,63,0.22),transparent_26%),radial-gradient(circle_at_88%_12%,rgba(22,52,47,0.18),transparent_20%),linear-gradient(180deg,#fbf7f1_0%,#f4ede4_100%)]" />
 
-            <div class="hero-metrics">
-              <div>
-                <strong>Strategie</strong>
-                <span>Cadrage, gouvernance et feuille de route</span>
+          <header className="mx-auto max-w-7xl px-6 pb-12 pt-6 md:px-8 lg:px-10">
+            <nav className="flex items-center justify-between rounded-full border border-white/60 bg-white/60 px-5 py-3 shadow-soft backdrop-blur">
+              <a href="#accueil" className="font-display text-xl font-bold tracking-tight text-pine">
+                Agir Partner
+              </a>
+              <div className="hidden items-center gap-8 text-sm font-medium text-mist md:flex">
+                <a href="#services" className="transition hover:text-pine">
+                  Services
+                </a>
+                <a href="#contact" className="transition hover:text-pine">
+                  Contact
+                </a>
               </div>
-              <div>
-                <strong>Execution</strong>
-                <span>Pilotage, coordination et acceleration</span>
-              </div>
-              <div>
-                <strong>Adoption</strong>
-                <span>Mobilisation, accompagnement et mesure</span>
-              </div>
-            </div>
-          </div>
+              <a
+                href="#contact"
+                className="rounded-full bg-pine px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink"
+              >
+                Demander un echange
+              </a>
+            </nav>
 
-          <aside class="hero-card reveal">
-            <p class="card-kicker">Cap sur vos priorites</p>
-            <h2>Une presence de terrain pour transformer sans disperser.</h2>
-            <ul class="benefits">
-              <li>Diagnostic rapide des points de friction</li>
-              <li>Plan d'action concret sur 30, 60 et 90 jours</li>
-              <li>Rituels de pilotage utiles et lisibles</li>
-              <li>Accompagnement sur mesure des equipes</li>
-            </ul>
-            <div class="card-panel">
-              <span class="status-dot"></span>
-              <p>Disponible pour missions d'accompagnement, cadrage et PMO de transformation.</p>
-            </div>
-          </aside>
+            <section
+              id="accueil"
+              className="grid gap-8 pb-8 pt-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-center"
+            >
+              <div>
+                <span className="inline-flex rounded-full border border-ember/20 bg-white/70 px-4 py-2 text-xs font-bold uppercase tracking-[0.28em] text-ember">
+                  ESN SIRH
+                </span>
+                <h1 className="mt-6 max-w-4xl font-display text-5xl font-bold leading-none tracking-tight text-ink md:text-6xl lg:text-7xl">
+                  Accelerez vos projets RH avec une execution claire, humaine et fiable.
+                </h1>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-mist">
+                  Agir Partner accompagne les DRH, DSI et directions de transformation sur le
+                  cadrage, l'integration et l'optimisation des solutions SIRH pour faire avancer
+                  les projets sans perdre le terrain.
+                </p>
+
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                  <a
+                    href="#services"
+                    className="inline-flex items-center justify-center rounded-full bg-ember px-6 py-3.5 text-base font-bold text-white transition hover:bg-[#c85b31]"
+                  >
+                    Voir les services
+                  </a>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center rounded-full border border-pine/15 bg-white/75 px-6 py-3.5 text-base font-bold text-pine transition hover:border-pine/30 hover:bg-white"
+                  >
+                    Parler de votre besoin
+                  </a>
+                </div>
+
+                <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                  <div className="rounded-3xl border border-white/70 bg-white/70 p-5 shadow-soft">
+                    <p className="text-sm font-bold text-pine">Roadmap</p>
+                    <p className="mt-2 text-sm leading-6 text-mist">Priorites lisibles et plan d'action concret.</p>
+                  </div>
+                  <div className="rounded-3xl border border-white/70 bg-white/70 p-5 shadow-soft">
+                    <p className="text-sm font-bold text-pine">Delivery</p>
+                    <p className="mt-2 text-sm leading-6 text-mist">Pilotage projet et coordination des acteurs cles.</p>
+                  </div>
+                  <div className="rounded-3xl border border-white/70 bg-white/70 p-5 shadow-soft">
+                    <p className="text-sm font-bold text-pine">Adoption</p>
+                    <p className="mt-2 text-sm leading-6 text-mist">Accompagnement du changement et ancrage des usages.</p>
+                  </div>
+                </div>
+              </div>
+
+              <aside className="rounded-[32px] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,248,242,0.94))] p-8 shadow-soft">
+                <p className="text-sm font-bold uppercase tracking-[0.22em] text-pine/70">
+                  Intervention ciblee
+                </p>
+                <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-pine">
+                  Une presence projet qui relie vision, execution et adoption metier.
+                </h2>
+                <ul className="mt-6 space-y-4 text-base leading-7 text-mist">
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-2.5 w-2.5 rounded-full bg-ember"></span>
+                    Cadrage des besoins RH et aide au choix de solution
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-2.5 w-2.5 rounded-full bg-pine"></span>
+                    PMO SIRH, gouvernance et suivi des engagements
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="mt-2 h-2.5 w-2.5 rounded-full bg-ember"></span>
+                    Stabilisation post go-live et optimisation continue
+                  </li>
+                </ul>
+                <div className="mt-8 rounded-3xl bg-pine px-5 py-4 text-white">
+                  <p className="text-sm font-semibold text-white/70">Positionnement</p>
+                  <p className="mt-2 text-sm leading-6">
+                    ESN de proximite pour les projets SIRH qui exigent de la lisibilite, de la
+                    cadence et une vraie attention aux utilisateurs.
+                  </p>
+                </div>
+              </aside>
+            </section>
+          </header>
+
+          <main>
+            <section id="services" className="mx-auto max-w-7xl px-6 py-10 md:px-8 lg:px-10">
+              <div className="max-w-3xl">
+                <p className="text-sm font-bold uppercase tracking-[0.24em] text-ember">Services</p>
+                <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-pine md:text-5xl">
+                  Trois leviers pour structurer, deployer et faire durer votre SIRH.
+                </h2>
+              </div>
+
+              <div className="mt-10 grid gap-6 lg:grid-cols-3">
+                {services.map((service, index) => (
+                  <article
+                    key={service.title}
+                    className="rounded-[28px] border border-white/70 bg-white/75 p-7 shadow-soft"
+                  >
+                    <span className="text-xs font-bold uppercase tracking-[0.3em] text-ember">
+                      0{index + 1}
+                    </span>
+                    <h3 className="mt-4 text-2xl font-bold tracking-tight text-pine">{service.title}</h3>
+                    <p className="mt-4 text-base leading-7 text-mist">{service.description}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="contact" className="mx-auto max-w-7xl px-6 py-14 md:px-8 lg:px-10">
+              <div className="grid gap-8 rounded-[36px] border border-white/70 bg-pine px-8 py-10 text-white shadow-soft lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)]">
+                <div>
+                  <p className="text-sm font-bold uppercase tracking-[0.24em] text-white/70">Contact</p>
+                  <h2 className="mt-4 font-display text-4xl font-bold tracking-tight md:text-5xl">
+                    Parlons de votre projet SIRH.
+                  </h2>
+                  <p className="mt-5 max-w-xl text-base leading-8 text-white/75">
+                    Un premier echange permet souvent de clarifier les priorites, d'identifier les
+                    risques et de poser un cadre d'action rapidement.
+                  </p>
+                </div>
+
+                <form className="grid gap-4 rounded-[28px] bg-white/8 p-1">
+                  <input
+                    type="text"
+                    placeholder="Votre nom"
+                    className="rounded-2xl border border-white/10 bg-white px-4 py-3 text-ink outline-none ring-0 placeholder:text-slate-400"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Votre email"
+                    className="rounded-2xl border border-white/10 bg-white px-4 py-3 text-ink outline-none ring-0 placeholder:text-slate-400"
+                  />
+                  <textarea
+                    rows="5"
+                    placeholder="Decrivez votre besoin"
+                    className="rounded-2xl border border-white/10 bg-white px-4 py-3 text-ink outline-none ring-0 placeholder:text-slate-400"
+                  ></textarea>
+                  <button
+                    type="button"
+                    className="rounded-full bg-ember px-6 py-3 font-bold text-white transition hover:bg-[#c85b31]"
+                  >
+                    Envoyer la demande
+                  </button>
+                </form>
+              </div>
+            </section>
+          </main>
         </div>
-      </div>
-    </header>
+      );
 
-    <main>
-      <section class="section" id="expertises">
-        <div class="container">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Expertises</p>
-            <h2>Des interventions concues pour remettre du mouvement dans les projets.</h2>
-          </div>
-
-          <div class="cards">
-            <article class="service-card reveal">
-              <span class="card-index">01</span>
-              <h3>Cadrage et structuration</h3>
-              <p>
-                Clarifier les objectifs, redefinir les priorites et construire une feuille de
-                route credible pour aligner tous les acteurs.
-              </p>
-            </article>
-
-            <article class="service-card reveal">
-              <span class="card-index">02</span>
-              <h3>Pilotage de transformation</h3>
-              <p>
-                Organiser la gouvernance, suivre les engagements, arbitrer avec lucidite et garder
-                l'energie sur les sujets decisifs.
-              </p>
-            </article>
-
-            <article class="service-card reveal">
-              <span class="card-index">03</span>
-              <h3>Accompagnement des equipes</h3>
-              <p>
-                Faire adherer, rassurer, transmettre les bons reperes et aider les equipes a
-                franchir les etapes de changement avec confiance.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-accent" id="methode">
-        <div class="container split">
-          <div class="reveal">
-            <p class="eyebrow">Methode</p>
-            <h2>Une approche simple: comprendre vite, agir juste, installer durablement.</h2>
-          </div>
-
-          <div class="timeline">
-            <article class="timeline-item reveal">
-              <span>1</span>
-              <div>
-                <h3>Observer</h3>
-                <p>Lire les signaux, ecouter les usages et identifier ce qui bloque vraiment.</p>
-              </div>
-            </article>
-            <article class="timeline-item reveal">
-              <span>2</span>
-              <div>
-                <h3>Prioriser</h3>
-                <p>Concentrer l'effort sur quelques leviers capables de produire un effet reel.</p>
-              </div>
-            </article>
-            <article class="timeline-item reveal">
-              <span>3</span>
-              <div>
-                <h3>Executer</h3>
-                <p>Transformer la strategie en cadence d'action avec des points de controle clairs.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact">
-        <div class="container contact-shell reveal">
-          <div>
-            <p class="eyebrow">Contact</p>
-            <h2>Un premier echange suffit souvent pour remettre de l'elan.</h2>
-            <p class="contact-copy">
-              Partagez votre contexte, vos enjeux ou un projet a relancer. La page est deja
-              prete pour presenter l'activite localement ou servir de base a une version plus
-              complete.
-            </p>
-          </div>
-
-          <form class="contact-form">
-            <label>
-              Nom
-              <input type="text" name="name" placeholder="Votre nom" />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" placeholder="vous@entreprise.fr" />
-            </label>
-            <label>
-              Besoin
-              <textarea
-                name="message"
-                rows="5"
-                placeholder="Decrivez votre besoin, votre contexte ou l'objectif de votre projet."
-              ></textarea>
-            </label>
-            <button type="button" class="btn" data-demo-submit>Envoyer une demande</button>
-            <p class="form-note" data-form-feedback>
-              Formulaire de demonstration pret a etre relie a votre solution d'envoi.
-            </p>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <script src="script.js"></script>
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
   </body>
 </html>
