@@ -223,6 +223,7 @@ h3 {
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 30px;
+  justify-content: center;
 }
 
 .btn {
@@ -248,8 +249,7 @@ h3 {
 }
 
 .hero-highlights,
-.services-grid,
-.trusted-grid {
+.services-grid {
   display: grid;
   gap: 18px;
 }
@@ -274,6 +274,7 @@ h3 {
 .highlight-card {
   padding: 18px;
   border-radius: var(--radius-md);
+  text-align: center;
 }
 
 .highlight-card strong {
@@ -351,22 +352,48 @@ h3 {
   letter-spacing: 0.2em;
 }
 
-.trusted-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.trusted-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
   margin-top: 32px;
 }
 
-.trusted-pill {
-  min-height: 88px;
-  padding: 22px;
-  border-radius: 24px;
+.trusted-logo {
+  min-height: 74px;
+  min-width: 170px;
+  padding: 16px 22px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-soft);
+}
+
+.trusted-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
   font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.trusted-name {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
 .testimonials-section {
@@ -500,7 +527,6 @@ h3 {
 @media (max-width: 1080px) {
   .hero-grid,
   .services-grid,
-  .trusted-grid,
   .contact-shell,
   .hero-highlights {
     grid-template-columns: 1fr;
@@ -545,7 +571,7 @@ h3 {
   .service-card,
   .contact-shell,
   .testimonial-card,
-  .trusted-pill {
+  .trusted-logo {
     border-radius: 24px;
   }
 }

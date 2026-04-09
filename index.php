@@ -15,12 +15,12 @@ $services = [
 ];
 
 $trustedCompanies = [
-    'Eiffage',
-    'TotalEnergies',
-    'Banque de France',
-    'Paris Habitat',
-    'Sanofi',
-    'Engie',
+    ['name' => 'Eiffage', 'mark' => 'E'],
+    ['name' => 'TotalEnergies', 'mark' => 'T'],
+    ['name' => 'Banque de France', 'mark' => 'B'],
+    ['name' => 'Paris Habitat', 'mark' => 'P'],
+    ['name' => 'Sanofi', 'mark' => 'S'],
+    ['name' => 'Engie', 'mark' => 'E'],
 ];
 
 $testimonials = [
@@ -119,11 +119,11 @@ $columns = array_chunk($testimonials, 3);
             <div class="hero-highlights">
               <div class="highlight-card">
                 <strong>Cadrage</strong>
-                <span>Roadmap, gouvernance, arbitrages et priorites utiles.</span>
+                <span>Un cap clair des les premieres semaines.</span>
               </div>
               <div class="highlight-card">
                 <strong>Delivery</strong>
-                <span>Coordination des parties prenantes et pilotage du rythme projet.</span>
+                <span>Un pilotage plus simple et plus fluide.</span>
               </div>
               <div class="highlight-card">
                 <strong>Adoption</strong>
@@ -184,9 +184,12 @@ $columns = array_chunk($testimonials, 3);
             <h2>Des organisations exigeantes nous ont confie des enjeux de transformation et de pilotage.</h2>
           </div>
 
-          <div class="trusted-grid reveal">
+          <div class="trusted-line reveal">
             <?php foreach ($trustedCompanies as $company): ?>
-              <div class="trusted-pill"><?= htmlspecialchars($company); ?></div>
+              <div class="trusted-logo" aria-label="<?= htmlspecialchars($company['name']); ?>">
+                <span class="trusted-mark"><?= htmlspecialchars($company['mark']); ?></span>
+                <span class="trusted-name"><?= htmlspecialchars($company['name']); ?></span>
+              </div>
             <?php endforeach; ?>
           </div>
         </div>
@@ -211,7 +214,7 @@ $columns = array_chunk($testimonials, 3);
                     <?php for ($loop = 0; $loop < 2; $loop++): ?>
                       <?php foreach ($column as $testimonial): ?>
                         <article class="testimonial-card">
-                          <p class="testimonial-text">“<?= htmlspecialchars($testimonial['text']); ?>”</p>
+                          <p class="testimonial-text">"<?= htmlspecialchars($testimonial['text']); ?>"</p>
                           <div class="testimonial-person">
                             <div class="testimonial-avatar"><?= strtoupper(substr($testimonial['name'], 0, 1)); ?></div>
                             <div>
