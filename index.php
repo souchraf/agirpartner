@@ -132,12 +132,11 @@ $columns = array_chunk($testimonials, 3);
           <a class="brand" href="#accueil" aria-label="Agir Partner">
             <img src="assets/brand/logo-agir-partner.png" alt="Logo Agir Partner" />
           </a>
-          <div class="nav-links">
-            <a href="#services">Services</a>
-            <a href="#temoignages">Temoignages</a>
-            <a href="#contact">Contact</a>
+          <div class="nav-actions">
+            <a class="nav-pill" href="#services">Services</a>
+            <a class="nav-pill" href="#temoignages">Temoignages</a>
+            <a class="nav-pill" href="#contact">Contacter</a>
           </div>
-          <a class="nav-cta" href="#contact">Contacter</a>
         </nav>
 
         <section class="hero-grid">
