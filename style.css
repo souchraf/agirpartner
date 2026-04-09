@@ -87,7 +87,7 @@ img {
 }
 
 .hero {
-  padding: 20px 0 56px;
+  padding: 20px 0 64px;
 }
 
 .nav {
@@ -162,6 +162,10 @@ h3 {
   gap: 28px;
   align-items: center;
   padding-top: 52px;
+}
+
+.hero-copy {
+  text-align: center;
 }
 
 .eyebrow {
@@ -285,6 +289,9 @@ h3 {
 .hero-panel {
   overflow: hidden;
   border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(247, 244, 255, 0.9));
+  box-shadow: 0 30px 80px rgba(88, 58, 180, 0.17);
 }
 
 .panel-visual {
@@ -341,6 +348,8 @@ h3 {
 .service-card {
   padding: 28px;
   border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 244, 255, 0.88));
 }
 
 .service-index {
@@ -361,39 +370,25 @@ h3 {
 }
 
 .trusted-logo {
-  min-height: 74px;
-  min-width: 170px;
-  padding: 16px 22px;
+  min-height: 82px;
+  min-width: 168px;
+  padding: 16px 20px;
   border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   border: 1px solid rgba(255, 255, 255, 0.78);
-  background: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow-soft);
 }
 
-.trusted-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--primary-soft);
-  color: var(--primary-strong);
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-weight: 700;
-}
-
-.trusted-name {
-  font-family: "Sora", "Segoe UI", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
+.trusted-logo img {
+  width: auto;
+  max-width: 130px;
+  max-height: 34px;
+  object-fit: contain;
+  filter: saturate(0.92) contrast(1.04);
 }
 
 .testimonials-section {
@@ -486,6 +481,8 @@ h3 {
   gap: 28px;
   padding: 32px;
   border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(243, 238, 252, 0.9));
 }
 
 .contact-card {
@@ -494,12 +491,55 @@ h3 {
   background: linear-gradient(180deg, rgba(125, 92, 255, 0.12), rgba(255, 255, 255, 0.65));
 }
 
+.contact-form {
+  display: grid;
+  gap: 16px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1px solid rgba(125, 92, 255, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--text);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid rgba(125, 92, 255, 0.18);
+  border-color: rgba(125, 92, 255, 0.28);
+}
+
 .contact-mail {
   min-height: 56px;
   width: 100%;
+  border: 0;
   background: var(--primary);
   color: #fff;
-  margin-bottom: 18px;
+  cursor: pointer;
+}
+
+.form-feedback {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.form-feedback.success {
+  color: #1b7f55;
+}
+
+.form-feedback.error {
+  color: #b54646;
 }
 
 .reveal {

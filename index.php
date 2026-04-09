@@ -1,4 +1,41 @@
 <?php
+$contactEmail = 'contact@agirpartner.com';
+$formStatus = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $company = trim($_POST['company'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+    $website = trim($_POST['website'] ?? '');
+
+    if ($website !== '') {
+        $formStatus = ['type' => 'success', 'message' => "Merci, votre demande a bien ete envoyee."];
+    } elseif ($name === '' || $email === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $formStatus = ['type' => 'error', 'message' => "Merci de verifier vos informations avant l'envoi."];
+    } else {
+        $subject = 'Nouveau message depuis agirpartner.com';
+        $body = "Nom : {$name}\n";
+        $body .= "Email : {$email}\n";
+        $body .= "Societe : {$company}\n\n";
+        $body .= "Message :\n{$message}\n";
+
+        $headers = [
+            'From: Agir Partner <no-reply@agirpartner.com>',
+            'Reply-To: ' . $email,
+            'Content-Type: text/plain; charset=UTF-8',
+        ];
+
+        $sent = @mail($contactEmail, $subject, $body, implode("\r\n", $headers));
+
+        if ($sent) {
+            $formStatus = ['type' => 'success', 'message' => "Merci, votre demande a bien ete envoyee."];
+        } else {
+            $formStatus = ['type' => 'error', 'message' => "L'envoi n'a pas abouti pour le moment. Merci de reessayer dans quelques instants."];
+        }
+    }
+}
+
 $services = [
     [
         'title' => 'Conseil SIRH',
@@ -15,12 +52,12 @@ $services = [
 ];
 
 $trustedCompanies = [
-    ['name' => 'Eiffage', 'mark' => 'E'],
-    ['name' => 'TotalEnergies', 'mark' => 'T'],
-    ['name' => 'Banque de France', 'mark' => 'B'],
-    ['name' => 'Paris Habitat', 'mark' => 'P'],
-    ['name' => 'Sanofi', 'mark' => 'S'],
-    ['name' => 'Engie', 'mark' => 'E'],
+    ['name' => 'Eiffage', 'logo' => 'https://logo.clearbit.com/eiffage.com?size=160'],
+    ['name' => 'TotalEnergies', 'logo' => 'https://logo.clearbit.com/totalenergies.com?size=160'],
+    ['name' => 'Banque de France', 'logo' => 'https://logo.clearbit.com/banque-france.fr?size=160'],
+    ['name' => 'Paris Habitat', 'logo' => 'https://logo.clearbit.com/parishabitat.fr?size=160'],
+    ['name' => 'Sanofi', 'logo' => 'https://logo.clearbit.com/sanofi.com?size=160'],
+    ['name' => 'Engie', 'logo' => 'https://logo.clearbit.com/engie.com?size=160'],
 ];
 
 $testimonials = [
@@ -104,7 +141,7 @@ $columns = array_chunk($testimonials, 3);
         <section class="hero-grid">
           <div class="hero-copy reveal">
             <p class="eyebrow">ESN SIRH et IT Consulting</p>
-            <h1>Une signature premium pour les projets RH et IT qui exigent clarte, rythme et execution.</h1>
+            <h1>Le conseil SIRH et IT avec plus de clarte, moins de friction.</h1>
             <p class="lead">
               Agir Partner accompagne les organisations dans le cadrage, le pilotage et
               l'optimisation de leurs transformations SIRH et IT avec une approche sobre,
@@ -113,7 +150,7 @@ $columns = array_chunk($testimonials, 3);
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="#services">Decouvrir nos expertises</a>
-              <a class="btn btn-secondary" href="mailto:contact@agirpartner.com">Nous ecrire</a>
+              <a class="btn btn-secondary" href="#contact">Parler de votre projet</a>
             </div>
 
             <div class="hero-highlights">
@@ -187,10 +224,59 @@ $columns = array_chunk($testimonials, 3);
           <div class="trusted-line reveal">
             <?php foreach ($trustedCompanies as $company): ?>
               <div class="trusted-logo" aria-label="<?= htmlspecialchars($company['name']); ?>">
-                <span class="trusted-mark"><?= htmlspecialchars($company['mark']); ?></span>
-                <span class="trusted-name"><?= htmlspecialchars($company['name']); ?></span>
+                <img
+                  src="<?= htmlspecialchars($company['logo']); ?>"
+                  alt="Logo <?= htmlspecialchars($company['name']); ?>"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                />
               </div>
             <?php endforeach; ?>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact-shell reveal">
+            <div class="contact-copy">
+              <p class="eyebrow">Contact</p>
+              <h2>Parlons de votre prochain sujet SIRH ou IT consulting.</h2>
+              <p>
+                Pour un besoin de cadrage, de pilotage, de renfort conseil ou d'optimisation,
+                laissez-nous un message et nous revenons vers vous rapidement.
+              </p>
+            </div>
+
+            <div class="contact-card">
+              <form class="contact-form" method="post" action="#contact">
+                <input type="hidden" name="website" value="" />
+                <label>
+                  Nom
+                  <input type="text" name="name" placeholder="Votre nom" required />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" placeholder="vous@entreprise.fr" required />
+                </label>
+                <label>
+                  Societe
+                  <input type="text" name="company" placeholder="Votre societe" />
+                </label>
+                <label>
+                  Votre besoin
+                  <textarea name="message" rows="5" placeholder="Parlez-nous de votre contexte, de votre projet ou de votre besoin." required></textarea>
+                </label>
+                <button class="contact-mail" type="submit">Envoyer la demande</button>
+                <?php if ($formStatus): ?>
+                  <p class="form-feedback <?= htmlspecialchars($formStatus['type']); ?>">
+                    <?= htmlspecialchars($formStatus['message']); ?>
+                  </p>
+                <?php else: ?>
+                  <p class="form-feedback">Une reponse rapide pour cadrer le besoin et definir le bon format d'accompagnement.</p>
+                <?php endif; ?>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -228,29 +314,6 @@ $columns = array_chunk($testimonials, 3);
                   </div>
                 </div>
               <?php endforeach; ?>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="contact-shell reveal">
-            <div class="contact-copy">
-              <p class="eyebrow">Contact</p>
-              <h2>Parlons de votre prochain sujet SIRH ou IT consulting.</h2>
-              <p>
-                Pour un besoin de cadrage, de pilotage, de renfort conseil ou d'optimisation,
-                contactez-nous directement par email.
-              </p>
-            </div>
-
-            <div class="contact-card">
-              <a class="contact-mail" href="mailto:contact@agirpartner.com">contact@agirpartner.com</a>
-              <p>
-                Reponse rapide pour echanger sur vos enjeux, vos priorites et le format
-                d'accompagnement le plus pertinent.
-              </p>
             </div>
           </div>
         </div>
