@@ -154,6 +154,7 @@ h3 {
   min-width: 148px;
   padding: 0 22px;
   background: linear-gradient(135deg, #8d6bff 0%, #6c46f0 100%);
+  border-color: transparent;
   color: #fff;
   border: 1px solid transparent;
   box-shadow: 0 16px 30px rgba(108, 70, 240, 0.18);
@@ -397,10 +398,10 @@ h3 {
 
 .trusted-logo img {
   width: auto;
-  max-width: 130px;
-  max-height: 34px;
+  max-width: 150px;
+  max-height: 40px;
   object-fit: contain;
-  filter: saturate(0.92) contrast(1.04);
+  display: block;
 }
 
 .testimonials-section {
