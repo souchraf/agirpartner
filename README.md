@@ -1,34 +1,19 @@
 # Agir Partner
 
-Site premium pour une ESN de conseil SIRH et IT consulting.
+Site vitrine simple pour OVH en PHP 8.5.
 
-## Stack
+## Fichiers utiles
 
-- React
-- TypeScript
-- Tailwind CSS
-- structure compatible shadcn/ui
-- Framer Motion
-- Lucide React
+- `index.php` : page d'accueil
+- `style.css` : design, responsive et animations
+- `script.js` : apparitions au scroll
 
-## Structure utile
+## Deploiement OVH
 
-- `src/components/ui/aurora-background.tsx` : composant de fond aurora
-- `src/components/ui/demo.tsx` : composant de demonstration fourni
-- `src/lib/utils.ts` : helper `cn`
-- `src/App.tsx` : homepage
+Copier directement ces fichiers a la racine du site :
 
-## Lancer le projet
+- `index.php`
+- `style.css`
+- `script.js`
 
-```bash
-npm install
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
-```
-
-Le projet est configure pour GitHub Pages avec la base `/agirpartner/`.
+Aucun build n'est necessaire.
