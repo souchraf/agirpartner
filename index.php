@@ -129,19 +129,21 @@ $columns = array_chunk($testimonials, 3);
     <header class="hero" id="accueil">
       <div class="container">
         <nav class="nav reveal">
-          <a class="brand" href="#accueil">Agir Partner</a>
+          <a class="brand" href="#accueil" aria-label="Agir Partner">
+            <img src="assets/brand/logo-agir-partner.png" alt="Logo Agir Partner" />
+          </a>
           <div class="nav-links">
             <a href="#services">Services</a>
             <a href="#temoignages">Temoignages</a>
             <a href="#contact">Contact</a>
           </div>
-          <a class="nav-cta" href="mailto:contact@agirpartner.com">contact@agirpartner.com</a>
+          <a class="nav-cta" href="#contact">Contacter</a>
         </nav>
 
         <section class="hero-grid">
           <div class="hero-copy reveal">
             <p class="eyebrow">ESN SIRH et IT Consulting</p>
-            <h1>Le conseil SIRH et IT avec plus de clarte, moins de friction.</h1>
+            <h1>Agir Partner vous aide a agir.</h1>
             <p class="lead">
               Agir Partner accompagne les organisations dans le cadrage, le pilotage et
               l'optimisation de leurs transformations SIRH et IT avec une approche sobre,
