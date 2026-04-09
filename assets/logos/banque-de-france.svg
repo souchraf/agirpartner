@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="290" height="68" viewBox="0 0 290 68" fill="none">
+  <rect width="290" height="68" rx="20" fill="white"/>
+  <circle cx="36" cy="34" r="16" fill="#1B3F8B"/>
+  <path d="M30 42C40 40 44 28 42 20C47 24 50 31 48 38C46 45 39 49 31 48" fill="#F7F4FF"/>
+  <text x="64" y="42" fill="#1B3F8B" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Banque de France</text>
+</svg>

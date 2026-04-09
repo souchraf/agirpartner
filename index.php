@@ -52,12 +52,12 @@ $services = [
 ];
 
 $trustedCompanies = [
-    ['name' => 'Eiffage', 'logo' => 'https://logo.clearbit.com/eiffage.com?size=160'],
-    ['name' => 'TotalEnergies', 'logo' => 'https://logo.clearbit.com/totalenergies.com?size=160'],
-    ['name' => 'Banque de France', 'logo' => 'https://logo.clearbit.com/banque-france.fr?size=160'],
-    ['name' => 'Paris Habitat', 'logo' => 'https://logo.clearbit.com/parishabitat.fr?size=160'],
-    ['name' => 'Sanofi', 'logo' => 'https://logo.clearbit.com/sanofi.com?size=160'],
-    ['name' => 'Engie', 'logo' => 'https://logo.clearbit.com/engie.com?size=160'],
+    ['name' => 'Eiffage', 'logo' => 'assets/logos/eiffage.svg'],
+    ['name' => 'TotalEnergies', 'logo' => 'assets/logos/totalenergies.svg'],
+    ['name' => 'Banque de France', 'logo' => 'assets/logos/banque-de-france.svg'],
+    ['name' => 'Paris Habitat', 'logo' => 'assets/logos/paris-habitat.svg'],
+    ['name' => 'Sanofi', 'logo' => 'assets/logos/sanofi.svg'],
+    ['name' => 'Engie', 'logo' => 'assets/logos/engie.svg'],
 ];
 
 $testimonials = [
@@ -135,7 +135,7 @@ $columns = array_chunk($testimonials, 3);
             <a href="#temoignages">Temoignages</a>
             <a href="#contact">Contact</a>
           </div>
-          <a class="nav-cta" href="mailto:contact@agirpartner.com">contact@agirpartner.com</a>
+          <a class="nav-cta" href="#contact">Contacter</a>
         </nav>
 
         <section class="hero-grid">

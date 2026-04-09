@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="68" viewBox="0 0 220 68" fill="none">
+  <rect width="220" height="68" rx="20" fill="white"/>
+  <path d="M28 16L42 16L28 34H42L28 52" stroke="#E31E24" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="64" y="42" fill="#2B2040" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700">Eiffage</text>
+</svg>
