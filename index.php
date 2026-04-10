@@ -128,34 +128,36 @@ $columns = array_chunk($testimonials, 3);
 
     <header class="hero" id="accueil">
       <div class="container">
-        <div class="nav-wrap reveal">
+        <div class="nav-shell reveal">
           <nav class="nav">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+              <span class="sr-only">Ouvrir le menu</span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+
             <a class="brand" href="#accueil" aria-label="Agir Partner">
               <img src="assets/brand/logo-agir-partner-modern.png" alt="Logo Agir Partner" />
             </a>
 
             <div class="nav-links-desktop" aria-label="Navigation principale">
-              <a href="#services">Services</a>
-              <a href="#temoignages">Temoignages</a>
-              <a href="#contact">Contact</a>
+              <a class="nav-link current" href="#accueil">Accueil</a>
+              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="#temoignages">Temoignages</a>
             </div>
 
-            <a class="nav-cta" href="#contact">Contacter</a>
-
-            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+            <a class="nav-cta" href="#contact">Parler nous</a>
           </nav>
         </div>
 
         <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
           <div class="mobile-menu-panel">
             <button class="mobile-close" type="button" aria-label="Fermer le menu" data-menu-close>×</button>
+            <a href="#accueil" data-mobile-link>Accueil</a>
             <a href="#services" data-mobile-link>Services</a>
             <a href="#temoignages" data-mobile-link>Temoignages</a>
-            <a href="#contact" data-mobile-link>Contacter</a>
+            <a href="#contact" data-mobile-link>Parler nous</a>
           </div>
         </div>
 
