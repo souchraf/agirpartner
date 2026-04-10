@@ -90,18 +90,25 @@ img {
   padding: 20px 0 64px;
 }
 
+.nav-shell {
+  display: flex;
+  justify-content: center;
+}
+
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(18px);
+  gap: 18px;
+  width: 100%;
+  max-width: 1040px;
+  min-height: 74px;
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(22px);
   border-radius: 999px;
-  box-shadow: var(--shadow);
-  position: relative;
+  box-shadow: 0 24px 60px rgba(92, 63, 183, 0.14);
 }
 
 .brand,
@@ -115,26 +122,24 @@ h3 {
   display: inline-flex;
   align-items: center;
   flex: 0 0 auto;
-  position: relative;
-  z-index: 1;
 }
 
 .brand img {
-  width: 84px;
+  width: 146px;
   height: auto;
 }
 
-.nav-actions {
+.nav-links-desktop {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  gap: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.nav-pill,
+.nav-link,
+.nav-cta,
 .btn,
 .contact-mail {
   display: inline-flex;
@@ -149,22 +154,131 @@ h3 {
     color 180ms ease;
 }
 
-.nav-pill {
+.nav-link {
   min-height: 42px;
-  min-width: 148px;
-  padding: 0 22px;
+  padding: 0 18px;
+  color: #36295b;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  background: rgba(125, 92, 255, 0.08);
+  color: var(--primary-strong);
+}
+
+.nav-link.current {
+  background: rgba(125, 92, 255, 0.14);
+  color: var(--primary-strong);
+}
+
+.nav-cta {
+  min-height: 46px;
+  min-width: 150px;
+  padding: 0 24px;
   background: linear-gradient(135deg, #8d6bff 0%, #6c46f0 100%);
-  border-color: transparent;
   color: #fff;
   border: 1px solid transparent;
   box-shadow: 0 16px 30px rgba(108, 70, 240, 0.18);
 }
 
-.nav-pill:hover,
+.nav-cta:hover,
 .btn-primary:hover,
 .contact-mail:hover {
   transform: translateY(-1px);
   background: linear-gradient(135deg, #7e59fb 0%, #5f39e8 100%);
+}
+
+.menu-toggle,
+.mobile-close {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 14px;
+}
+
+.menu-toggle span {
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: #36295b;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mobile-menu[hidden] {
+  display: none;
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(248, 244, 255, 0.94);
+  backdrop-filter: blur(20px);
+  padding: 22px;
+}
+
+.mobile-menu-panel {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 84px 24px 26px;
+  border-radius: 30px;
+  background: white;
+  box-shadow: 0 30px 80px rgba(92, 63, 183, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobile-menu-panel a {
+  min-height: 52px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(125, 92, 255, 0.08);
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+.mobile-menu-panel a:last-child {
+  background: linear-gradient(135deg, #8d6bff 0%, #6c46f0 100%);
+  color: white;
+}
+
+.mobile-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(125, 92, 255, 0.1);
+  color: var(--deep);
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .hero-grid {
@@ -598,12 +712,22 @@ h3 {
 
 @media (max-width: 760px) {
   .nav {
-    border-radius: 30px;
-    padding: 16px;
+    border-radius: 28px;
+    min-height: 64px;
+    padding: 10px 14px;
   }
 
-  .nav-actions {
+  .brand img {
+    width: 128px;
+  }
+
+  .nav-links-desktop,
+  .nav-cta {
     display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
   }
 
   .hero {
