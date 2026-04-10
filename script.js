@@ -58,3 +58,17 @@ if (menuClose) {
 mobileLinks.forEach((link) => {
   link.addEventListener("click", closeMenu);
 });
+
+if (mobileMenu) {
+  mobileMenu.addEventListener("click", (event) => {
+    if (event.target === mobileMenu) {
+      closeMenu();
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMenu();
+  }
+});

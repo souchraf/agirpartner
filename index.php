@@ -1,53 +1,178 @@
-<?php
+﻿<?php
+session_start();
+
 $contactEmail = 'contact@agirpartner.com';
-$formStatus = null;
+$candidatureEmail = 'candidature@agirpartner.com';
+$maxUploadSize = 5 * 1024 * 1024;
+$allowedCvExtensions = ['pdf', 'doc', 'docx'];
+
+function generateCaptcha(string $key): string
+{
+    $a = random_int(2, 9);
+    $b = random_int(1, 8);
+    $_SESSION['captcha_' . $key] = (string) ($a + $b);
+
+    return "{$a} + {$b}";
+}
+
+function cleanValue(string $value): string
+{
+    return trim(str_replace(["\r", "\n"], ' ', $value));
+}
+
+function sendPlainMail(string $to, string $subject, string $body, string $replyTo): bool
+{
+    $headers = [
+        'From: Agir Partner <no-reply@agirpartner.com>',
+        'Reply-To: ' . $replyTo,
+        'Content-Type: text/plain; charset=UTF-8',
+    ];
+
+    return @mail($to, $subject, $body, implode("\r\n", $headers));
+}
+
+function sendMailWithAttachment(string $to, string $subject, string $body, string $replyTo, array $file): bool
+{
+    $boundary = 'agirpartner_' . md5((string) microtime(true));
+    $headers = [
+        'From: Agir Partner <no-reply@agirpartner.com>',
+        'Reply-To: ' . $replyTo,
+        'MIME-Version: 1.0',
+        'Content-Type: multipart/mixed; boundary="' . $boundary . '"',
+    ];
+
+    $filename = basename($file['name']);
+    $fileContent = chunk_split(base64_encode((string) file_get_contents($file['tmp_name'])));
+    $mimeType = $file['type'] ?: 'application/octet-stream';
+
+    $message = "--{$boundary}\r\n";
+    $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $message .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+    $message .= $body . "\r\n\r\n";
+    $message .= "--{$boundary}\r\n";
+    $message .= "Content-Type: {$mimeType}; name=\"{$filename}\"\r\n";
+    $message .= "Content-Transfer-Encoding: base64\r\n";
+    $message .= "Content-Disposition: attachment; filename=\"{$filename}\"\r\n\r\n";
+    $message .= $fileContent . "\r\n";
+    $message .= "--{$boundary}--";
+
+    return @mail($to, $subject, $message, implode("\r\n", $headers));
+}
+
+$contactStatus = null;
+$candidatureStatus = null;
+$contactValues = ['name' => '', 'email' => '', 'company' => '', 'message' => ''];
+$candidateValues = ['name' => '', 'email' => '', 'phone' => '', 'message' => ''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $company = trim($_POST['company'] ?? '');
-    $message = trim($_POST['message'] ?? '');
-    $website = trim($_POST['website'] ?? '');
+    $formType = $_POST['form_type'] ?? '';
+    $honeypot = trim($_POST['website'] ?? '');
 
-    if ($website !== '') {
-        $formStatus = ['type' => 'success', 'message' => "Merci, votre demande a bien ete envoyee."];
-    } elseif ($name === '' || $email === '' || $message === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $formStatus = ['type' => 'error', 'message' => "Merci de verifier vos informations avant l'envoi."];
-    } else {
-        $subject = 'Nouveau message depuis agirpartner.com';
-        $body = "Nom : {$name}\n";
-        $body .= "Email : {$email}\n";
-        $body .= "Societe : {$company}\n\n";
-        $body .= "Message :\n{$message}\n";
-
-        $headers = [
-            'From: Agir Partner <no-reply@agirpartner.com>',
-            'Reply-To: ' . $email,
-            'Content-Type: text/plain; charset=UTF-8',
+    if ($formType === 'contact') {
+        $contactValues = [
+            'name' => trim($_POST['name'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'company' => trim($_POST['company'] ?? ''),
+            'message' => trim($_POST['message'] ?? ''),
         ];
 
-        $sent = @mail($contactEmail, $subject, $body, implode("\r\n", $headers));
+        $captchaAnswer = trim($_POST['captcha_answer'] ?? '');
+        $expectedCaptcha = $_SESSION['captcha_contact'] ?? '';
 
-        if ($sent) {
-            $formStatus = ['type' => 'success', 'message' => "Merci, votre demande a bien ete envoyee."];
+        if ($honeypot !== '') {
+            $contactStatus = ['type' => 'success', 'message' => "Merci, votre message a bien ete transmis."];
+        } elseif (
+            $contactValues['name'] === '' ||
+            $contactValues['email'] === '' ||
+            $contactValues['message'] === '' ||
+            !filter_var($contactValues['email'], FILTER_VALIDATE_EMAIL)
+        ) {
+            $contactStatus = ['type' => 'error', 'message' => "Merci de verifier vos informations avant l'envoi."];
+        } elseif ($captchaAnswer === '' || $captchaAnswer !== $expectedCaptcha) {
+            $contactStatus = ['type' => 'error', 'message' => "Le captcha de contact est incorrect."];
         } else {
-            $formStatus = ['type' => 'error', 'message' => "L'envoi n'a pas abouti pour le moment. Merci de reessayer dans quelques instants."];
+            $subject = 'Nouveau message de contact - agirpartner.com';
+            $body = "Nom : " . cleanValue($contactValues['name']) . "\n";
+            $body .= "Email : " . cleanValue($contactValues['email']) . "\n";
+            $body .= "Societe : " . cleanValue($contactValues['company']) . "\n\n";
+            $body .= "Message :\n" . trim($contactValues['message']) . "\n";
+
+            $sent = sendPlainMail($contactEmail, $subject, $body, $contactValues['email']);
+            $contactStatus = $sent
+                ? ['type' => 'success', 'message' => "Merci, votre message a bien ete transmis."]
+                : ['type' => 'error', 'message' => "L'envoi n'a pas abouti pour le moment. Merci de reessayer dans quelques instants."];
+        }
+    }
+
+    if ($formType === 'candidature') {
+        $candidateValues = [
+            'name' => trim($_POST['candidate_name'] ?? ''),
+            'email' => trim($_POST['candidate_email'] ?? ''),
+            'phone' => trim($_POST['candidate_phone'] ?? ''),
+            'message' => trim($_POST['candidate_message'] ?? ''),
+        ];
+
+        $captchaAnswer = trim($_POST['candidate_captcha_answer'] ?? '');
+        $expectedCaptcha = $_SESSION['captcha_candidate'] ?? '';
+        $cvFile = $_FILES['cv_file'] ?? null;
+
+        if ($honeypot !== '') {
+            $candidatureStatus = ['type' => 'success', 'message' => "Merci, votre candidature a bien ete transmise."];
+        } elseif (
+            $candidateValues['name'] === '' ||
+            $candidateValues['email'] === '' ||
+            !filter_var($candidateValues['email'], FILTER_VALIDATE_EMAIL) ||
+            !$cvFile ||
+            ($cvFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK
+        ) {
+            $candidatureStatus = ['type' => 'error', 'message' => "Merci de completer le formulaire et de joindre votre CV."];
+        } elseif ($captchaAnswer === '' || $captchaAnswer !== $expectedCaptcha) {
+            $candidatureStatus = ['type' => 'error', 'message' => "Le captcha de candidature est incorrect."];
+        } else {
+            $extension = strtolower(pathinfo((string) $cvFile['name'], PATHINFO_EXTENSION));
+
+            if (!in_array($extension, $allowedCvExtensions, true)) {
+                $candidatureStatus = ['type' => 'error', 'message' => "Le CV doit etre au format PDF, DOC ou DOCX."];
+            } elseif (($cvFile['size'] ?? 0) > $maxUploadSize) {
+                $candidatureStatus = ['type' => 'error', 'message' => "Le CV depasse la taille maximale de 5 Mo."];
+            } else {
+                $subject = 'Nouvelle candidature - agirpartner.com';
+                $body = "Nom : " . cleanValue($candidateValues['name']) . "\n";
+                $body .= "Email : " . cleanValue($candidateValues['email']) . "\n";
+                $body .= "Telephone : " . cleanValue($candidateValues['phone']) . "\n\n";
+                $body .= "Message :\n" . trim($candidateValues['message']) . "\n";
+
+                $sent = sendMailWithAttachment(
+                    $candidatureEmail,
+                    $subject,
+                    $body,
+                    $candidateValues['email'],
+                    $cvFile
+                );
+
+                $candidatureStatus = $sent
+                    ? ['type' => 'success', 'message' => "Merci, votre candidature a bien ete transmise."]
+                    : ['type' => 'error', 'message' => "L'envoi n'a pas abouti pour le moment. Merci de reessayer dans quelques instants."];
+            }
         }
     }
 }
 
+$contactCaptchaQuestion = generateCaptcha('contact');
+$candidateCaptchaQuestion = generateCaptcha('candidate');
+
 $services = [
     [
         'title' => 'Conseil SIRH',
-        'description' => "Cadrage des besoins, aide au choix de solution, roadmap et gouvernance pour faire converger les enjeux RH, IT et metier.",
+        'description' => "Cadrage, aide au choix, gouvernance et roadmap pour aligner les enjeux RH, IT et metier.",
     ],
     [
         'title' => 'IT Consulting',
-        'description' => "Pilotage de projets, AMOA, coordination des editeurs et accompagnement des equipes pour fluidifier l'execution et tenir les jalons.",
+        'description' => "Pilotage de projets, AMOA, coordination delivery et renfort sur les phases sensibles des programmes.",
     ],
     [
         'title' => 'Run et optimisation',
-        'description' => "Stabilisation post go-live, accompagnement des usages, mesure de la valeur et optimisation continue des dispositifs SIRH.",
+        'description' => "Stabilisation, accompagnement des usages et optimisation continue des dispositifs SIRH.",
     ],
 ];
 
@@ -62,53 +187,38 @@ $trustedCompanies = [
 
 $testimonials = [
     [
-        'text' => "Agir Partner a remis de la clarte dans un programme SIRH qui patinait. En quelques semaines, nous avions une gouvernance lisible, des priorites tranchees et des decisions plus rapides.",
+        'text' => "Agir Partner a remis de la clarte dans un programme SIRH qui patinait. En quelques semaines, nous avions une gouvernance lisible et des decisions plus rapides.",
         'name' => 'Directrice Transformation RH',
         'role' => 'Groupe energie',
     ],
     [
-        'text' => "Leur force a ete de relier les besoins metier, les contraintes IT et les attentes des utilisateurs sans complexifier le projet. L'accompagnement a ete tres rassurant pour les equipes.",
+        'text' => "Leur force a ete de relier les besoins metier, les contraintes IT et les attentes des utilisateurs sans complexifier le projet.",
         'name' => 'Responsable SIRH',
         'role' => 'Acteur immobilier public',
     ],
     [
-        'text' => "Nous cherchions un partenaire capable de cadrer, challenger et accelerer. La mission a apporte un vrai cap et un niveau d'exigence utile pour toutes les parties prenantes.",
+        'text' => "Nous cherchions un partenaire capable de cadrer, challenger et accelerer. La mission a apporte un vrai cap au programme.",
         'name' => 'DRH adjointe',
         'role' => 'Industrie sante',
     ],
     [
-        'text' => "Le pilotage a gagne en fluidite et les points d'arbitrage sont devenus beaucoup plus simples. Nous avons enfin eu des livrables actionnables et un rythme de travail solide.",
+        'text' => "Le pilotage a gagne en fluidite et les points d'arbitrage sont devenus beaucoup plus simples. Les livrables etaient vraiment actionnables.",
         'name' => 'Directeur de programme',
         'role' => 'Grande infrastructure',
     ],
     [
-        'text' => "L'approche est a la fois premium et tres concrete. On sent une vraie maitrise des sujets SIRH, mais aussi une excellente lecture des enjeux de delivery et d'adoption.",
+        'text' => "L'approche est premium mais tres concrete. On sent une vraie maitrise des sujets SIRH et une excellente lecture des enjeux delivery.",
         'name' => 'DSI RH',
         'role' => 'Services financiers',
     ],
     [
-        'text' => "Agir Partner a su remettre de la confiance dans un contexte tendu. Les equipes se sont rapidement re-alignees autour d'une trajectoire compréhensible et realiste.",
+        'text' => "Agir Partner a su remettre de la confiance dans un contexte tendu. Les equipes se sont rapidement re-alignees.",
         'name' => 'Cheffe de projet transformation',
         'role' => 'Grand compte industrie',
     ],
-    [
-        'text' => "Nous avions besoin d'un regard externe solide, sans jargon inutile. L'accompagnement a ete exigeant, elegant et surtout tres efficace pour faire avancer le programme.",
-        'name' => 'Directeur PMO',
-        'role' => 'Habitat et services publics',
-    ],
-    [
-        'text' => "La mission a permis de reconnecter les decisions strategiques avec le terrain. Les utilisateurs ont ete mieux embarques et les sponsors ont retrouve de la visibilite.",
-        'name' => 'Responsable conduite du changement',
-        'role' => 'Groupe multi-sites',
-    ],
-    [
-        'text' => "Sur des sujets sensibles entre RH, IT et editeur, l'intervention d'Agir Partner a clairement fait la difference. Le niveau de structuration et de tact relationnel a ete remarquable.",
-        'name' => 'Manager transformation digitale',
-        'role' => 'Groupe CAC 40',
-    ],
 ];
 
-$columns = array_chunk($testimonials, 3);
+$columns = array_chunk($testimonials, 2);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -142,9 +252,9 @@ $columns = array_chunk($testimonials, 3);
             </a>
 
             <div class="nav-links-desktop" aria-label="Navigation principale">
-              <a class="nav-link current" href="#accueil">Accueil</a>
+              <a class="nav-link current" href="#accueil" aria-current="page">Accueil</a>
               <a class="nav-link" href="#services">Services</a>
-              <a class="nav-link" href="#temoignages">Temoignages</a>
+              <a class="nav-link" href="#candidature">Candidature</a>
             </div>
 
             <a class="nav-cta" href="#contact">Parler nous</a>
@@ -153,10 +263,10 @@ $columns = array_chunk($testimonials, 3);
 
         <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
           <div class="mobile-menu-panel">
-            <button class="mobile-close" type="button" aria-label="Fermer le menu" data-menu-close>×</button>
+            <button class="mobile-close" type="button" aria-label="Fermer le menu" data-menu-close>&times;</button>
             <a href="#accueil" data-mobile-link>Accueil</a>
             <a href="#services" data-mobile-link>Services</a>
-            <a href="#temoignages" data-mobile-link>Temoignages</a>
+            <a href="#candidature" data-mobile-link>Candidature</a>
             <a href="#contact" data-mobile-link>Parler nous</a>
           </div>
         </div>
@@ -164,7 +274,7 @@ $columns = array_chunk($testimonials, 3);
         <section class="hero-grid">
           <div class="hero-copy reveal">
             <p class="eyebrow">ESN SIRH et IT Consulting</p>
-            <h1>Agir Partner vous aide a agir.</h1>
+            <h1><span class="hero-brand">Agir Partner</span><span class="hero-sub">vous aide a agir.</span></h1>
             <p class="lead">
               Agir Partner accompagne les organisations dans le cadrage, le pilotage et
               l'optimisation de leurs transformations SIRH et IT avec une approche sobre,
@@ -173,7 +283,7 @@ $columns = array_chunk($testimonials, 3);
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="#services">Decouvrir nos expertises</a>
-              <a class="btn btn-secondary" href="#contact">Parler de votre projet</a>
+              <a class="btn btn-secondary" href="#candidature">Deposer un CV</a>
             </div>
 
             <div class="hero-highlights">
@@ -241,7 +351,7 @@ $columns = array_chunk($testimonials, 3);
         <div class="container">
           <div class="section-heading narrow reveal">
             <p class="eyebrow">Ils nous font confiance</p>
-            <h2>Des organisations exigeantes nous ont confie des enjeux de transformation et de pilotage.</h2>
+            <h2 class="trusted-headline">Des organisations exigeantes nous ont confie des enjeux de transformation et de pilotage.</h2>
           </div>
 
           <div class="trusted-line reveal">
@@ -251,10 +361,65 @@ $columns = array_chunk($testimonials, 3);
                   src="<?= htmlspecialchars($company['logo']); ?>"
                   alt="Logo <?= htmlspecialchars($company['name']); ?>"
                   loading="lazy"
-                  referrerpolicy="no-referrer"
                 />
               </div>
             <?php endforeach; ?>
+          </div>
+        </div>
+      </section>
+
+      <section class="section dual-section" id="candidature">
+        <div class="container dual-grid">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Candidature</p>
+            <h2>Deposez votre CV pour rejoindre Agir Partner.</h2>
+            <p>
+              Nous etudions les candidatures en conseil SIRH, pilotage de projets, AMOA, PMO et
+              accompagnement de transformation.
+            </p>
+          </div>
+
+          <div class="contact-card reveal">
+            <form class="contact-form" method="post" action="#candidature" enctype="multipart/form-data">
+              <input type="hidden" name="form_type" value="candidature" />
+              <div class="field-trap" aria-hidden="true">
+                <label>Site web
+                  <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </label>
+              </div>
+              <label>
+                Nom
+                <input type="text" name="candidate_name" placeholder="Votre nom" value="<?= htmlspecialchars($candidateValues['name']); ?>" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="candidate_email" placeholder="vous@domaine.fr" value="<?= htmlspecialchars($candidateValues['email']); ?>" required />
+              </label>
+              <label>
+                Telephone
+                <input type="text" name="candidate_phone" placeholder="Votre numero" value="<?= htmlspecialchars($candidateValues['phone']); ?>" />
+              </label>
+              <label>
+                CV
+                <input type="file" name="cv_file" accept=".pdf,.doc,.docx" required />
+              </label>
+              <label>
+                Message
+                <textarea name="candidate_message" rows="4" placeholder="Quelques lignes sur votre parcours, votre disponibilite ou le type de mission recherche."><?= htmlspecialchars($candidateValues['message']); ?></textarea>
+              </label>
+              <label>
+                Captcha: combien font <?= htmlspecialchars($candidateCaptchaQuestion); ?> ?
+                <input type="text" name="candidate_captcha_answer" placeholder="Votre reponse" required />
+              </label>
+              <button class="contact-mail" type="submit">Envoyer ma candidature</button>
+              <?php if ($candidatureStatus): ?>
+                <p class="form-feedback <?= htmlspecialchars($candidatureStatus['type']); ?>">
+                  <?= htmlspecialchars($candidatureStatus['message']); ?>
+                </p>
+              <?php else: ?>
+                <p class="form-feedback">Formats acceptes : PDF, DOC, DOCX. Taille maximale : 5 Mo.</p>
+              <?php endif; ?>
+            </form>
           </div>
         </div>
       </section>
@@ -263,7 +428,7 @@ $columns = array_chunk($testimonials, 3);
         <div class="container">
           <div class="contact-shell reveal">
             <div class="contact-copy">
-              <p class="eyebrow">Contact</p>
+              <p class="eyebrow">Parler nous</p>
               <h2>Parlons de votre prochain sujet SIRH ou IT consulting.</h2>
               <p>
                 Pour un besoin de cadrage, de pilotage, de renfort conseil ou d'optimisation,
@@ -273,27 +438,36 @@ $columns = array_chunk($testimonials, 3);
 
             <div class="contact-card">
               <form class="contact-form" method="post" action="#contact">
-                <input type="hidden" name="website" value="" />
+                <input type="hidden" name="form_type" value="contact" />
+                <div class="field-trap" aria-hidden="true">
+                  <label>Site web
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                  </label>
+                </div>
                 <label>
                   Nom
-                  <input type="text" name="name" placeholder="Votre nom" required />
+                  <input type="text" name="name" placeholder="Votre nom" value="<?= htmlspecialchars($contactValues['name']); ?>" required />
                 </label>
                 <label>
                   Email
-                  <input type="email" name="email" placeholder="vous@entreprise.fr" required />
+                  <input type="email" name="email" placeholder="vous@entreprise.fr" value="<?= htmlspecialchars($contactValues['email']); ?>" required />
                 </label>
                 <label>
                   Societe
-                  <input type="text" name="company" placeholder="Votre societe" />
+                  <input type="text" name="company" placeholder="Votre societe" value="<?= htmlspecialchars($contactValues['company']); ?>" />
                 </label>
                 <label>
                   Votre besoin
-                  <textarea name="message" rows="5" placeholder="Parlez-nous de votre contexte, de votre projet ou de votre besoin." required></textarea>
+                  <textarea name="message" rows="5" placeholder="Parlez-nous de votre contexte, de votre projet ou de votre besoin." required><?= htmlspecialchars($contactValues['message']); ?></textarea>
+                </label>
+                <label>
+                  Captcha: combien font <?= htmlspecialchars($contactCaptchaQuestion); ?> ?
+                  <input type="text" name="captcha_answer" placeholder="Votre reponse" required />
                 </label>
                 <button class="contact-mail" type="submit">Envoyer la demande</button>
-                <?php if ($formStatus): ?>
-                  <p class="form-feedback <?= htmlspecialchars($formStatus['type']); ?>">
-                    <?= htmlspecialchars($formStatus['message']); ?>
+                <?php if ($contactStatus): ?>
+                  <p class="form-feedback <?= htmlspecialchars($contactStatus['type']); ?>">
+                    <?= htmlspecialchars($contactStatus['message']); ?>
                   </p>
                 <?php else: ?>
                   <p class="form-feedback">Une reponse rapide pour cadrer le besoin et definir le bon format d'accompagnement.</p>
@@ -318,7 +492,7 @@ $columns = array_chunk($testimonials, 3);
           <div class="testimonials-mask">
             <div class="testimonials-columns">
               <?php foreach ($columns as $columnIndex => $column): ?>
-                <div class="testimonials-column <?= $columnIndex > 0 ? 'desktop-only' : ''; ?> <?= $columnIndex > 1 ? 'wide-only' : ''; ?>">
+                <div class="testimonials-column <?= $columnIndex > 0 ? 'desktop-only' : ''; ?>">
                   <div class="testimonials-track speed-<?= $columnIndex + 1; ?>">
                     <?php for ($loop = 0; $loop < 2; $loop++): ?>
                       <?php foreach ($column as $testimonial): ?>
@@ -343,6 +517,26 @@ $columns = array_chunk($testimonials, 3);
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-copy-block">
+          <p class="footer-brand">Agir Partner</p>
+          <p class="footer-meta">Cabinet de conseil en transformation, pilotage et accompagnement des programmes RH et IT.</p>
+          <p class="footer-copy">Conseil SIRH et IT consulting. Un accompagnement premium, clair et oriente execution.</p>
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.php">Mentions legales</a>
+          <a href="politique-confidentialite.php">Politique de confidentialite</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>Hebergement : OVHcloud</p>
+        <p>&copy; <?= date('Y'); ?> Agir Partner. Tous droits reserves.</p>
+      </div>
+    </footer>
+
     <script src="script.js"></script>
   </body>
 </html>
+
