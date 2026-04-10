@@ -546,7 +546,6 @@ $columns = array_chunk($testimonials, 2);
         </div>
       </div>
       <div class="container footer-bottom">
-        <p>Hebergement : OVHcloud</p>
         <p>&copy; <?= date('Y'); ?> Agir Partner. Tous droits reserves.</p>
       </div>
     </footer>
