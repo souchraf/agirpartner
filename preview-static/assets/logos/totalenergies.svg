@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="68" viewBox="0 0 260 68" fill="none">
+  <rect width="260" height="68" rx="20" fill="white"/>
+  <path d="M28 20C36 12 49 14 54 22C58 28 56 36 48 40C57 40 64 47 64 55" stroke="#FF5F00" stroke-width="7" stroke-linecap="round"/>
+  <path d="M31 45C36 52 48 55 58 51C66 47 71 39 72 30" stroke="#E6007E" stroke-width="7" stroke-linecap="round"/>
+  <path d="M38 15C50 14 62 20 69 30" stroke="#0072CE" stroke-width="7" stroke-linecap="round"/>
+  <text x="88" y="42" fill="#2B2040" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">TotalEnergies</text>
+</svg>
