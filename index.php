@@ -257,7 +257,7 @@ $columns = array_chunk($testimonials, 2);
               <a class="nav-link" href="#candidature">Candidature</a>
             </div>
 
-            <a class="nav-cta" href="#contact">Parler nous</a>
+            <a class="nav-cta" href="#contact">Parlez-nous</a>
           </nav>
         </div>
 
@@ -267,37 +267,36 @@ $columns = array_chunk($testimonials, 2);
             <a href="#accueil" data-mobile-link>Accueil</a>
             <a href="#services" data-mobile-link>Services</a>
             <a href="#candidature" data-mobile-link>Candidature</a>
-            <a href="#contact" data-mobile-link>Parler nous</a>
+            <a href="#contact" data-mobile-link>Parlez-nous</a>
           </div>
         </div>
 
         <section class="hero-grid">
           <div class="hero-copy reveal">
-            <p class="eyebrow">ESN SIRH et IT Consulting</p>
+            <p class="eyebrow">Conseil SIRH et IT Consulting</p>
             <h1><span class="hero-brand">Agir Partner</span><span class="hero-sub">vous aide a agir.</span></h1>
             <p class="lead">
-              Agir Partner accompagne les organisations dans le cadrage, le pilotage et
-              l'optimisation de leurs transformations SIRH et IT avec une approche sobre,
-              exigeante et directement utile au terrain.
+              Nous aidons les organisations a cadrer, piloter et remettre en mouvement leurs
+              programmes RH et IT avec une execution claire, senior et directement utile.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#services">Decouvrir nos expertises</a>
+              <a class="btn btn-primary" href="#contact">Parler a un consultant</a>
               <a class="btn btn-secondary" href="#candidature">Deposer un CV</a>
             </div>
 
-            <div class="hero-highlights">
-              <div class="highlight-card">
-                <strong>Cadrage</strong>
-                <span>Un cap clair des les premieres semaines.</span>
+            <div class="hero-facts">
+              <div class="fact">
+                <strong>Clarte de pilotage</strong>
+                <span>Un cap plus lisible pour les directions RH, DSI et metiers.</span>
               </div>
-              <div class="highlight-card">
-                <strong>Delivery</strong>
-                <span>Un pilotage plus simple et plus fluide.</span>
+              <div class="fact">
+                <strong>Intervention senior</strong>
+                <span>Des missions menees avec exigence, rythme et sens du delivery.</span>
               </div>
-              <div class="highlight-card">
-                <strong>Adoption</strong>
-                <span>Accompagnement des equipes et ancrage durable des usages.</span>
+              <div class="fact">
+                <strong>Execution concrete</strong>
+                <span>Des arbitrages actionnables et une mise en mouvement immediate.</span>
               </div>
             </div>
           </div>
@@ -309,13 +308,17 @@ $columns = array_chunk($testimonials, 2);
                 alt="Equipe en reunion autour d'un programme de transformation"
               />
             </div>
+            <div class="hero-note">
+              <strong>Cabinet de transformation RH et IT</strong>
+              <p>Des interventions concues pour les contextes exigeants, avec une culture claire du resultat.</p>
+            </div>
             <div class="panel-content">
               <p class="eyebrow subtle">ADN du cabinet</p>
-              <h2>Relier vision, gouvernance et terrain sans sur-complexifier les projets.</h2>
+              <h2>Relier vision, gouvernance et execution sans alourdir les projets.</h2>
               <ul class="panel-list">
-                <li>Conseil SIRH de cadrage a l'optimisation continue</li>
-                <li>Interventions IT consulting avec une forte culture delivery</li>
-                <li>Accompagnement premium, humain et oriente resultats</li>
+                <li>Conseil SIRH de cadrage, choix, pilotage et optimisation continue</li>
+                <li>IT consulting avec une forte culture delivery et gouvernance</li>
+                <li>Accompagnement premium, humain et structure autour de decisions utiles</li>
               </ul>
             </div>
           </aside>
@@ -328,10 +331,10 @@ $columns = array_chunk($testimonials, 2);
         <div class="container">
           <div class="section-heading reveal">
             <p class="eyebrow">Services</p>
-            <h2>Des interventions de conseil pensees pour aligner RH, IT et metier.</h2>
+            <h2>Des interventions de conseil concues pour remettre les programmes en mouvement.</h2>
             <p>
-              Nous intervenons sur les moments cles d'un programme: cadrer, arbitrer, remettre de
-              la lisibilite, accelerer l'execution et stabiliser dans la duree.
+              Nous intervenons sur les moments qui comptent: cadrer un programme, arbitrer les
+              priorites, securiser l'execution et installer une trajectoire durable.
             </p>
           </div>
 
@@ -370,13 +373,21 @@ $columns = array_chunk($testimonials, 2);
 
       <section class="section dual-section" id="candidature">
         <div class="container dual-grid">
-          <div class="section-heading reveal">
+          <div class="contact-spotlight reveal">
             <p class="eyebrow">Candidature</p>
             <h2>Deposez votre CV pour rejoindre Agir Partner.</h2>
             <p>
-              Nous etudions les candidatures en conseil SIRH, pilotage de projets, AMOA, PMO et
-              accompagnement de transformation.
+              Nous etudions les profils en conseil SIRH, pilotage de projets, AMOA, PMO,
+              transformation RH et accompagnement delivery.
             </p>
+            <ul>
+              <li>Missions a forte valeur ajoutee sur des contextes RH et IT exigeants</li>
+              <li>Recherche de profils autonomes, fiables et orientes execution</li>
+              <li>CV et message transmis directement a candidature@agirpartner.com</li>
+            </ul>
+            <div class="mini-actions">
+              <a class="mini-link" href="#services">Voir nos expertises</a>
+            </div>
           </div>
 
           <div class="contact-card reveal">
@@ -417,7 +428,7 @@ $columns = array_chunk($testimonials, 2);
                   <?= htmlspecialchars($candidatureStatus['message']); ?>
                 </p>
               <?php else: ?>
-                <p class="form-feedback">Formats acceptes : PDF, DOC, DOCX. Taille maximale : 5 Mo.</p>
+                <p class="form-feedback">Formats acceptes : PDF, DOC, DOCX. Taille maximale : 5 Mo. Le captcha protege le formulaire contre les envois automatises.</p>
               <?php endif; ?>
             </form>
           </div>
@@ -428,12 +439,16 @@ $columns = array_chunk($testimonials, 2);
         <div class="container">
           <div class="contact-shell reveal">
             <div class="contact-copy">
-              <p class="eyebrow">Parler nous</p>
-              <h2>Parlons de votre prochain sujet SIRH ou IT consulting.</h2>
+              <p class="eyebrow">Parlez-nous</p>
+              <h2>Parlons de votre prochain sujet SIRH, gouvernance ou IT consulting.</h2>
               <p>
                 Pour un besoin de cadrage, de pilotage, de renfort conseil ou d'optimisation,
-                laissez-nous un message et nous revenons vers vous rapidement.
+                laissez-nous un message. Nous revenons vers vous rapidement avec un premier
+                niveau de lecture du besoin.
               </p>
+              <div class="mini-actions">
+                <a class="mini-link" href="#candidature">Vous souhaitez nous rejoindre ?</a>
+              </div>
             </div>
 
             <div class="contact-card">
@@ -470,7 +485,7 @@ $columns = array_chunk($testimonials, 2);
                     <?= htmlspecialchars($contactStatus['message']); ?>
                   </p>
                 <?php else: ?>
-                  <p class="form-feedback">Une reponse rapide pour cadrer le besoin et definir le bon format d'accompagnement.</p>
+                  <p class="form-feedback">Une reponse rapide pour cadrer le besoin et definir le bon format d'accompagnement. Le captcha limite les sollicitations automatiques.</p>
                 <?php endif; ?>
               </form>
             </div>
