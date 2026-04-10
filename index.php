@@ -128,16 +128,36 @@ $columns = array_chunk($testimonials, 3);
 
     <header class="hero" id="accueil">
       <div class="container">
-        <nav class="nav reveal">
-          <a class="brand" href="#accueil" aria-label="Agir Partner">
-            <img src="assets/brand/logo-agir-partner.png" alt="Logo Agir Partner" />
-          </a>
-          <div class="nav-actions">
-            <a class="nav-pill" href="#services">Services</a>
-            <a class="nav-pill" href="#temoignages">Temoignages</a>
-            <a class="nav-pill" href="#contact">Contacter</a>
+        <div class="nav-wrap reveal">
+          <nav class="nav">
+            <a class="brand" href="#accueil" aria-label="Agir Partner">
+              <img src="assets/brand/logo-agir-partner-modern.png" alt="Logo Agir Partner" />
+            </a>
+
+            <div class="nav-links-desktop" aria-label="Navigation principale">
+              <a href="#services">Services</a>
+              <a href="#temoignages">Temoignages</a>
+              <a href="#contact">Contact</a>
+            </div>
+
+            <a class="nav-cta" href="#contact">Contacter</a>
+
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </nav>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+          <div class="mobile-menu-panel">
+            <button class="mobile-close" type="button" aria-label="Fermer le menu" data-menu-close>×</button>
+            <a href="#services" data-mobile-link>Services</a>
+            <a href="#temoignages" data-mobile-link>Temoignages</a>
+            <a href="#contact" data-mobile-link>Contacter</a>
           </div>
-        </nav>
+        </div>
 
         <section class="hero-grid">
           <div class="hero-copy reveal">
