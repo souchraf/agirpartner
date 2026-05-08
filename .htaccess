@@ -1,0 +1,11 @@
+AddDefaultCharset UTF-8
+
+<IfModule mod_mime.c>
+  AddCharset UTF-8 .html .css .js .php .txt
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set Content-Type "text/html; charset=UTF-8" "expr=%{REQUEST_URI} =~ m#\\.html$#"
+  Header set Content-Type "text/css; charset=UTF-8" "expr=%{REQUEST_URI} =~ m#\\.css$#"
+  Header set Content-Type "application/javascript; charset=UTF-8" "expr=%{REQUEST_URI} =~ m#\\.js$#"
+</IfModule>

@@ -91,13 +91,14 @@
         </ul>
       </div>
       <div class="contact-card">
-        <form>
-          <label>Nom<input type="text" placeholder="Votre nom"></label>
-          <label>Email<input type="email" placeholder="vous@domaine.fr"></label>
-          <label>CV<input type="file"></label>
-          <label>Message<textarea rows="4" placeholder="Quelques lignes sur votre parcours ou votre disponibilité."></textarea></label>
-          <label>Captcha : combien font 7 + 4 ?<input type="text" placeholder="Votre réponse"></label>
-          <button class="button button-primary" type="button">Envoyer ma candidature</button>
+        <form method="post" action="cv.php" enctype="multipart/form-data">
+          <input type="hidden" name="company" value="">
+          <label>Nom<input type="text" name="name" placeholder="Votre nom" required></label>
+          <label>Email<input type="email" name="email" placeholder="vous@domaine.fr" required></label>
+          <label>CV<input type="file" name="cv_file" accept=".pdf,.doc,.docx" required></label>
+          <label>Message<textarea name="message" rows="4" placeholder="Quelques lignes sur votre parcours ou votre disponibilité."></textarea></label>
+          <label>Captcha : combien font 7 + 4 ?<input type="text" name="captcha_answer" placeholder="Votre réponse" required></label>
+          <button class="button button-primary" type="submit">Envoyer ma candidature</button>
           <p class="form-feedback">Formats acceptés : PDF, DOC, DOCX. Taille maximale : 5 Mo.</p>
         </form>
       </div>
@@ -144,12 +145,13 @@
         <p>Parlez-nous de votre besoin. Nous revenons vers vous rapidement.</p>
       </div>
       <div class="contact-card">
-        <form>
-          <label>Nom<input type="text" placeholder="Votre nom"></label>
-          <label>Email<input type="email" placeholder="vous@entreprise.fr"></label>
-          <label>Votre besoin<textarea rows="5" placeholder="Parlez-nous de votre contexte, de votre projet ou de votre besoin."></textarea></label>
-          <label>Captcha : combien font 5 + 4 ?<input type="text" placeholder="Votre réponse"></label>
-          <button class="button button-primary" type="button">Envoyer la demande</button>
+        <form method="post" action="appointment.php">
+          <input type="hidden" name="company" value="">
+          <label>Nom<input type="text" name="name" placeholder="Votre nom" required></label>
+          <label>Email<input type="email" name="email" placeholder="vous@entreprise.fr" required></label>
+          <label>Votre besoin<textarea name="message" rows="5" placeholder="Parlez-nous de votre contexte, de votre projet ou de votre besoin." required></textarea></label>
+          <label>Captcha : combien font 5 + 4 ?<input type="text" name="captcha_answer" placeholder="Votre réponse" required></label>
+          <button class="button button-primary" type="submit">Envoyer la demande</button>
           <p class="form-feedback">Réponse rapide pour cadrer le besoin et définir le bon format d’accompagnement.</p>
         </form>
       </div>
